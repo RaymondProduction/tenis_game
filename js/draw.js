@@ -14,7 +14,11 @@ define(
       control.paddlex = WIDTH / 2;
       paddleh = 10;
       paddlew = 75;
-
+      ballr = 10;
+      rowcolors = ["#FF1C0A", "#FFFD0A", "#00A308", "#0008DB", "#EB0093"];
+      paddlecolor = "#FFFFFF";
+      ballcolor = "#FFFFFF";
+      backcolor = "#000000";
       drawObj.initBricks();
     }
 
@@ -40,7 +44,7 @@ define(
           if (bricks[i][j] == 1) {
             drawObj.rect((j * (BRICKWIDTH + PADDING)) + PADDING,
               (i * (BRICKHEIGHT + PADDING)) + PADDING,
-              BRICKWIDTH, BRICKHEIGHT);
+              BRICKWIDTH, BRICKHEIGHT, rowcolors[i]);
           }
         }
       }
@@ -60,12 +64,12 @@ define(
       }
     }
     drawObj.action = function() {
-      drawObj.clear();
-      drawObj.circle(x, y, 10);
-
+      console.log(backcolor);
+      drawObj.clear(backcolor);
+      drawObj.circle(x, y, ballr,ballcolor);
       if (control.rightDown) control.paddlex += 5;
       else if (control.leftDown) control.paddlex -= 5;
-      drawObj.rect(control.paddlex, HEIGHT - paddleh, paddlew, paddleh);
+      drawObj.rect(control.paddlex, HEIGHT - paddleh, paddlew, paddleh,paddlecolor);
 
       //bricks.show();
       drawObj.checkBricks();
@@ -87,22 +91,27 @@ define(
       y += dy;;
     }
 
-    drawObj.circle = function(x, y, r) {
+    drawObj.circle = function(x, y, r,color) {
+      ctx.fillStyle = color;
       ctx.beginPath();
       ctx.arc(x, y, r, 0, Math.PI * 2, true);
       ctx.closePath();
       ctx.fill();
     }
 
-    drawObj.rect = function(x, y, w, h) {
+    drawObj.rect = function(x, y, w, h, color) {
+      ctx.fillStyle = color;
       ctx.beginPath();
       ctx.rect(x, y, w, h);
       ctx.closePath();
       ctx.fill();
     }
 
-    drawObj.clear = function() {
-      ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    drawObj.clear = function(color) {
+      //console.log(color)
+      //ctx.fillStyle = "#000000";
+      //ctx.clearRect(0, 0, WIDTH, HEIGHT);
+      drawObj.rect(0, 0, WIDTH, HEIGHT,color)
     }
 
 
