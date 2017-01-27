@@ -1,6 +1,6 @@
 define(
-  'draw', ['jquery', 'control','init'],
-  function(jQ, control, init) {
+  'draw', ['jquery', 'control','runner'],
+  function(jQ, control, runner) {
     var drawObj = {};
 
     drawObj.init = function() {
@@ -82,7 +82,7 @@ define(
         if (x > control.paddlex && x < control.paddlex + paddlew)
           dy = -dy;
         else {
-          init.restart();
+          runner.restart();
         }
 
       }

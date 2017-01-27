@@ -1,4 +1,4 @@
-require(['jquery','init', 'control','draw'], function(jQ,init,control,draw) {
+require(['runner', 'control','draw'], function(runner,control,draw) {
   control.init();
-  init.init(draw.init,draw.action)
+  runner.init(draw.init,draw.action);
 });
