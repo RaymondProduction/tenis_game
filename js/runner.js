@@ -21,7 +21,7 @@ define(
       button ="<div id='button'><button class='button' name='restart'>";
       button+="Restart</button></div>";
       jQ("div").append(button);
-      jQ("button").click(function(event) {
+      jQ(".button").click(function(event) {
         nameButton = jQuery(this).attr("name");
         if (nameButton == 'restart' && start==-1) {
           start=3;
