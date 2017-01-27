@@ -1,14 +1,41 @@
 define(
-  'init', ['jquery','draw','control'],
-  function(jQ,draw,control,bricks) {
+  'init', ['jquery','control'],
+  function(jQ,draw,control,restart) {
     var iniObj = {
     };
-    iniObj.init = function() {
-        ctx = jQ('#myCanvas')[0].getContext("2d");
-        iniObj.WIDTH = jQ("#myCanvas").width();
-        iniObj.HEIGHT = jQ("#myCanvas").height();
-        control.init();
-        draw.init(iniObj.WIDTH,iniObj.HEIGHT,setInterval(draw.action, 10));
+    iniObj.init = function(drIn,act) {
+        start=-1;
+        action=act;
+        drawInit=drIn;
+        drawInit();
+        intervalId = setInterval(action, 10);
+    }
+
+    iniObj.initRepeat = function(){
+      iniObj.init(drawInit,action);
+    }
+
+    iniObj.restart = function() {
+      clearInterval(intervalId);
+      jQ("div").append("<div id='button'><button class='button' name='reset'>Reset</button></div>");
+      jQ("button").click(function(event) {
+        nameButton = jQuery(this).attr("name");
+        if (nameButton == 'reset' && start==-1) {
+          start=3;
+          jQ('.button').text("3");
+          beforeStartId=setInterval(iniObj.beforeStart, 1000);
+        }
+      });
+    };
+
+    iniObj.beforeStart = function(){
+      start-=1;
+      if (start==-1) {
+        jQ('#button').remove()
+        clearInterval(beforeStartId);
+        iniObj.initRepeat();
+      } else
+      jQ('.button').text(start);
     }
     return iniObj;
   });

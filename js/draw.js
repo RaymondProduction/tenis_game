@@ -1,23 +1,23 @@
 define(
-  'draw', ['jquery', 'control'],
-  function(jQ, control, bricks) {
+  'draw', ['jquery', 'control','init'],
+  function(jQ, control, init) {
     var drawObj = {};
 
-    drawObj.init = function(W, H, intId) {
+    drawObj.init = function() {
+      ctx = jQ('#myCanvas')[0].getContext("2d");
+      WIDTH = jQ("#myCanvas").width();
+      HEIGHT = jQ("#myCanvas").height();
       x = 150;
       y = 150;
       dx = 2;
       dy = 4;
-      WIDTH = W;
-      HEIGHT = H;
-      intervalId = intId
       control.paddlex = WIDTH / 2;
       paddleh = 10;
       paddlew = 75;
       ballr = 10;
       rowcolors = ["#FF1C0A", "#FFFD0A", "#00A308", "#0008DB", "#EB0093"];
-      paddlecolor = "#FFFFFF";
-      ballcolor = "#FFFFFF";
+      paddlecolor = "#FFFAAA";
+      ballcolor = "#FFF000";
       backcolor = "#000000";
       drawObj.initBricks();
     }
@@ -64,12 +64,11 @@ define(
       }
     }
     drawObj.action = function() {
-      console.log(backcolor);
       drawObj.clear(backcolor);
-      drawObj.circle(x, y, ballr,ballcolor);
+      drawObj.circle(x, y, ballr, ballcolor);
       if (control.rightDown) control.paddlex += 5;
       else if (control.leftDown) control.paddlex -= 5;
-      drawObj.rect(control.paddlex, HEIGHT - paddleh, paddlew, paddleh,paddlecolor);
+      drawObj.rect(control.paddlex, HEIGHT - paddleh, paddlew, paddleh, paddlecolor);
 
       //bricks.show();
       drawObj.checkBricks();
@@ -82,16 +81,17 @@ define(
       else if (y + dy > HEIGHT) {
         if (x > control.paddlex && x < control.paddlex + paddlew)
           dy = -dy;
-        else
-          //dy = -dy;
-        clearInterval(intervalId);
+        else {
+          init.restart();
+        }
+
       }
 
       x += dx;
       y += dy;;
     }
 
-    drawObj.circle = function(x, y, r,color) {
+    drawObj.circle = function(x, y, r, color) {
       ctx.fillStyle = color;
       ctx.beginPath();
       ctx.arc(x, y, r, 0, Math.PI * 2, true);
@@ -108,10 +108,8 @@ define(
     }
 
     drawObj.clear = function(color) {
-      //console.log(color)
-      //ctx.fillStyle = "#000000";
-      //ctx.clearRect(0, 0, WIDTH, HEIGHT);
-      drawObj.rect(0, 0, WIDTH, HEIGHT,color)
+      ctx.clearRect(0, 0, WIDTH, HEIGHT);
+      drawObj.rect(0, 0, WIDTH, HEIGHT, color)
     }
 
 
