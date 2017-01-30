@@ -28,11 +28,11 @@ define(
       BRICKWIDTH = (WIDTH / NCOLS) - 1;
       BRICKHEIGHT = 15;
       PADDING = 1;
-      bricks = new Array(NROWS);
+      drawObj.bricks = new Array(NROWS);
       for (i = 0; i < NROWS; i++) {
-        bricks[i] = new Array(NCOLS);
+        drawObj.bricks[i] = new Array(NCOLS);
         for (j = 0; j < NCOLS; j++) {
-          bricks[i][j] = 1;
+          drawObj.bricks[i][j] = 1;
         }
       }
     }
@@ -41,7 +41,7 @@ define(
       //draw bricks
       for (i = 0; i < NROWS; i++) {
         for (j = 0; j < NCOLS; j++) {
-          if (bricks[i][j] == 1) {
+          if (drawObj.bricks[i][j] == 1) {
             drawObj.rect((j * (BRICKWIDTH + PADDING)) + PADDING,
               (i * (BRICKHEIGHT + PADDING)) + PADDING,
               BRICKWIDTH, BRICKHEIGHT, rowcolors[i]);
@@ -58,9 +58,9 @@ define(
       row = Math.floor(y / rowheight);
       col = Math.floor(x / colwidth);
       //if so, reverse the ball and mark the brick as broken
-      if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
+      if (y < NROWS * rowheight && row >= 0 && col >= 0 && drawObj.bricks[row][col] == 1) {
         dy = -dy;
-        bricks[row][col] = 0;
+        drawObj.bricks[row][col] = 0;
       }
     }
     drawObj.action = function() {
